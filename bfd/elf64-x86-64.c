@@ -1678,8 +1678,10 @@ elf_x86_64_check_tls_transition (bfd *abfd,
 	    {
 	      /* Use strncmp to check __tls_get_addr since
 		 __tls_get_addr may be versioned.  */
-	      if (strncmp (h->root.root.string, "__tls_get_addr", 14)
+	      if ((strncmp (h->root.root.string, "__tls_get_addr", 14)
 		  == 0)
+		  || (strncmp (h->root.root.string, "___tls_get_addr",
+			       15) == 0))
 		{
 		  eh->tls_get_addr = 1;
 		  tls_get_addr = TRUE;

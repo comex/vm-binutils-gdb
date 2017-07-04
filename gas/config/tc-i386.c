@@ -11152,6 +11152,22 @@ tc_pe_dwarf2_emit_offset (symbolS *symbol, unsigned int size)
 #endif
 
 #if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
+/* Support for __tls_get_addr -> ___tls_get_addr redirection.  */
+
+void
+x86_64_elf_frob_symbol (symbolS *symp, int *puntp)
+{
+  if (flag_code == CODE_64BIT
+      && S_IS_WEAKREFD (symp)
+      && strcmp (S_GET_NAME (symp), "___tls_get_addr") == 0)
+    {
+      /* Turn weakrefd ___tls_get_addr into reference to non-weak
+         ___tls_get_addr.  */
+      S_CLEAR_WEAKREFD (symp);
+    }
+  elf_frob_symbol (symp, puntp);
+}
+
 /* For ELF on x86-64, add support for SHF_X86_64_LARGE.  */
 
 bfd_vma

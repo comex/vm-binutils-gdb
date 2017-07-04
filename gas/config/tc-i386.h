@@ -307,6 +307,12 @@ extern int i386_elf_section_type (const char *, size_t);
 extern void i386_solaris_fix_up_eh_frame (segT);
 #endif
 
+#if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
+/* Support for __tls_get_addr -> ___tls_get_addr redirection.  */
+#define obj_frob_symbol(sym, punt) x86_64_elf_frob_symbol ((sym), &(punt))
+extern void x86_64_elf_frob_symbol (symbolS *, int *);
+#endif
+
 /* Support for SHF_X86_64_LARGE */
 extern bfd_vma x86_64_section_word (char *, size_t);
 extern bfd_vma x86_64_section_letter (int, const char **);
